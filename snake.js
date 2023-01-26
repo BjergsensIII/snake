@@ -26,6 +26,11 @@ var apple = {
   y: 320
 };
 
+var cr = 'rgb('+
+    Math.floor(Math.random()*256)+','+
+    Math.floor(Math.random()*256)+','+
+    Math.floor(Math.random()*256)+')';
+
 // get random whole numbers in a specific range
 // @see https://stackoverflow.com/a/1527820/2124254
 function getRandomInt(min, max) {
@@ -37,7 +42,7 @@ function loop() {
   requestAnimationFrame(loop);
 
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
-  if (++count < 8) {
+  if (++count < 10) {
     return;
   }
 
@@ -74,23 +79,28 @@ function loop() {
 
   // draw apple
   
-  context.fillStyle = 'red';
+  context.fillStyle = "red";
   context.fillRect(apple.x, apple.y, grid-1, grid-1);
 
   // draw snake one cell at a time
-  context.fillStyle = 'green';
+  context.fillStyle = cr;
   snake.cells.forEach(function(cell, index) {
 
     // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+    
     context.fillRect(cell.x, cell.y, grid-0.5, grid-0.5);
+    
 
     // snake ate apple
     if (cell.x === apple.x && cell.y === apple.y) {
-      snake.maxCells++;
-
+        snake.maxCells++;
+        cr = 'rgb('+
+        Math.floor(Math.random()*256)+','+
+        Math.floor(Math.random()*256)+','+
+        Math.floor(Math.random()*256)+')';
       // canvas is 400x400 which is 25x25 grids
-      apple.x = getRandomInt(0, 25) * grid;
-      apple.y = getRandomInt(0, 25) * grid;
+        apple.x = getRandomInt(0, 25) * grid;
+        apple.y = getRandomInt(0, 25) * grid;
     }
 
     // check collision with all cells after this one (modified bubble sort)
@@ -141,6 +151,8 @@ document.addEventListener('keydown', function(e) {
     snake.dx = 0;
   }
 });
+
+
 
 // start the game
 requestAnimationFrame(loop);
