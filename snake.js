@@ -94,6 +94,7 @@ function loop() {
     // snake ate apple
     if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
+        // randomize color
         cr = 'rgb('+
         Math.floor(Math.random()*256)+','+
         Math.floor(Math.random()*256)+','+
