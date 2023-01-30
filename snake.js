@@ -4,8 +4,9 @@ var context = canvas.getContext('2d');
 
 // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
 // (e.g. 16 * 25 = 400)
-var grid = 16;
+var grid = 32;
 var count = 0;
+
 
 var snake = {
   x: 160,
@@ -37,18 +38,23 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+
 // game loop
 function loop() {
   requestAnimationFrame(loop);
 
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
-  if (++count < 10) {
+  if (++count < 30) {
     return;
   }
 
   count = 0;
   context.clearRect(0,0,canvas.width,canvas.height);
 
+  //increase velocity after collecting 10 foods
+  if(snake.maxCells >= 10){
+    count = 20;
+  }
   // move snake by it's velocity
   snake.x += snake.dx;
   snake.y += snake.dy;
@@ -131,29 +137,60 @@ document.addEventListener('keydown', function(e) {
   // left won't do anything, and pressing right while moving left
   // shouldn't let you collide with your own body)
 
-  // left arrow key
-  if (e.which === 37 && snake.dx === 0) {
+  // left arrow key or A
+  if ((e.which === 65 || e.which === 37) && snake.dx === 0) {
     snake.dx = -grid;
     snake.dy = 0;
   }
-  // up arrow key
-  else if (e.which === 38 && snake.dy === 0) {
+  // up arrow key or W
+  else if ((e.which === 87 || e.which === 38) && snake.dy === 0) {
     snake.dy = -grid;
     snake.dx = 0;
   }
-  // right arrow key
-  else if (e.which === 39 && snake.dx === 0) {
+  // right arrow key or D
+  else if ((e.which === 68 || e.which === 39) && snake.dx === 0) {
     snake.dx = grid;
     snake.dy = 0;
   }
-  // down arrow key
-  else if (e.which === 40 && snake.dy === 0) {
+  // down arrow key or S
+  else if ((e.which === 83 || e.which === 40) && snake.dy === 0) {
     snake.dy = grid;
     snake.dx = 0;
   }
+  else if(e.which === 81) {
+    count += 20;
+  }
+  else if(e.which === 69) {
+    count = 10;
+  }
 });
+/*
+
+  //trying switch system for arrow moving
+document.addEventListener('keydown', e => {
+    switch (e.key){
+        case (e.which === 37 && snake.dx === 0):
+            snake.dx = -grid;
+            snake.dy = 0;
+            break
+        case (e.which === "ArrowUp" && snake.dx === 0):
+            snake.dy = -grid;
+            snake.dx = 0;
+            break
+        case (e.which === 39 && snake.dx === 0):
+            snake.dx = grid;
+            snake.dy = 0;
+            break
+        case (e.which === 40 && snake.dx === 0):
+            snake.dy = grid;
+            snake.dx = 0;
+            break
+        
+    }
+})*/
 
 
 
 // start the game
-requestAnimationFrame(loop);
+requestAnimationFrame();
+cancelAnimationFrame(loop);
