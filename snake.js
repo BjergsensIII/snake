@@ -2,12 +2,13 @@
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
-// the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
-// (e.g. 16 * 25 = 400)
-var grid = 32;
+  // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
+  // (e.g. 16 * 25 = 400)
+var grid = 16;
 var count = 0;
 
 
+  //snake position start
 var snake = {
   x: 160,
   y: 160,
@@ -22,9 +23,15 @@ var snake = {
   // length of the snake. grows when eating an apple
   maxCells: 4
 };
+
 var apple = {
   x: 320,
   y: 320
+};
+
+var apple2 = {
+  x: 360,
+  y: 360
 };
 
 var cr = 'rgb('+
@@ -42,7 +49,6 @@ function getRandomInt(min, max) {
 // game loop
 function loop() {
   requestAnimationFrame(loop);
-
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 30) {
     return;
@@ -51,9 +57,15 @@ function loop() {
   count = 0;
   context.clearRect(0,0,canvas.width,canvas.height);
 
-  //increase velocity after collecting 10 foods
-  if(snake.maxCells >= 10){
+  //increase velocity after collecting 6 12 and 18 foods
+  if(snake.maxCells >= 6){
+    count = 15;
+  }
+  if(snake.maxCells >= 12){
     count = 20;
+  }
+  if(snake.maxCells >= 18){
+    count = 25;
   }
   // move snake by it's velocity
   snake.x += snake.dx;
@@ -92,7 +104,7 @@ function loop() {
   context.fillStyle = cr;
   snake.cells.forEach(function(cell, index) {
 
-    // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+    // drawing 1 px or less smaller than the grid creates a grid effect in the snake body so you can see how long it is
     
     context.fillRect(cell.x, cell.y, grid-0.5, grid-0.5);
     
@@ -106,8 +118,8 @@ function loop() {
         Math.floor(Math.random()*256)+','+
         Math.floor(Math.random()*256)+')';
       // canvas is 400x400 which is 25x25 grids
-        apple.x = getRandomInt(0, 25) * grid;
-        apple.y = getRandomInt(0, 25) * grid;
+        apple.x = getRandomInt(0, 50) * grid;
+        apple.y = getRandomInt(0, 50) * grid;
     }
 
     // check collision with all cells after this one (modified bubble sort)
@@ -122,9 +134,10 @@ function loop() {
         snake.dx = grid;
         snake.dy = 0;
 
-        apple.x = getRandomInt(0, 25) * grid;
-        apple.y = getRandomInt(0, 25) * grid;
+        apple.x = getRandomInt(0, 50) * grid;
+        apple.y = getRandomInt(0, 50) * grid;
       }
+
 
     }
   });
@@ -164,33 +177,9 @@ document.addEventListener('keydown', function(e) {
     count = 10;
   }
 });
-/*
 
-  //trying switch system for arrow moving
-document.addEventListener('keydown', e => {
-    switch (e.key){
-        case (e.which === 37 && snake.dx === 0):
-            snake.dx = -grid;
-            snake.dy = 0;
-            break
-        case (e.which === "ArrowUp" && snake.dx === 0):
-            snake.dy = -grid;
-            snake.dx = 0;
-            break
-        case (e.which === 39 && snake.dx === 0):
-            snake.dx = grid;
-            snake.dy = 0;
-            break
-        case (e.which === 40 && snake.dx === 0):
-            snake.dy = grid;
-            snake.dx = 0;
-            break
-        
-    }
-})*/
 
 
 
 // start the game
-requestAnimationFrame();
-cancelAnimationFrame(loop);
+
