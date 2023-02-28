@@ -1,13 +1,15 @@
 
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
+var score = document.querySelector('.score');
 
   // the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
   // (e.g. 16 * 25 = 400)
 var grid = 16;
 var count = 0;
 
-
+  //score counter
+var points = 0;
   //snake position start
 var snake = {
   x: 160,
@@ -117,9 +119,12 @@ function loop() {
         Math.floor(Math.random()*256)+','+
         Math.floor(Math.random()*256)+','+
         Math.floor(Math.random()*256)+')';
-      // canvas is 400x400 which is 25x25 grids
+      // canvas is 800x800 which is 25x25 grids
         apple.x = getRandomInt(0, 50) * grid;
         apple.y = getRandomInt(0, 50) * grid;
+
+        points++;
+        score.innerText = points;
     }
 
     // check collision with all cells after this one (modified bubble sort)
@@ -133,7 +138,8 @@ function loop() {
         snake.maxCells = 4;
         snake.dx = grid;
         snake.dy = 0;
-
+        points = 0;
+        score.innerText = points;
         apple.x = getRandomInt(0, 50) * grid;
         apple.y = getRandomInt(0, 50) * grid;
       }
