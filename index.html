@@ -11,12 +11,19 @@
     <div class="backg">
     <div class="score">0</div>
     
-        <button id='start_btn' onClick='requestAnimationFrame(loop)'>PLAY</button>
+        <button id='start_btn' onClick='requestAnimationFrame(loop), hideButton(this)'>PLAY</button>
         <canvas width="800" height="800" id="game"></canvas>
 
     </div>
     
     <script src="snake.js"></script>
+    
+    <script>
+        function hideButton(x)
+         {
+          x.style.display = 'none';
+         }
+        </script>
 </body>
 </html>
 

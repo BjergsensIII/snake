@@ -185,7 +185,5 @@ document.addEventListener('keydown', function(e) {
 });
 
 
-
-
 // start the game
 
