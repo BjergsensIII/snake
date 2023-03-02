@@ -60,13 +60,13 @@ function loop() {
   context.clearRect(0,0,canvas.width,canvas.height);
 
   //increase velocity after collecting 6 12 and 18 foods
-  if(snake.maxCells >= 6){
+  if(points >= 5){
     count = 15;
   }
-  if(snake.maxCells >= 12){
+  if(points >= 10){
     count = 20;
   }
-  if(snake.maxCells >= 18){
+  if(points >= 15){
     count = 25;
   }
   // move snake by it's velocity
